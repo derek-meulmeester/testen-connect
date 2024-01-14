@@ -1,0 +1,25 @@
+inherit_gem:
+  rubocop-shopify: rubocop.yml
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'db/schema.rb'
+    - 'node_modules/**/*'
+    - 'vendor/bundle/**/*'
+
+Style/WordArray:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: true
+
+Lint/MissingSuper:
+  Enabled: false
+
+Style/ClassMethodsDefinitions:
+  Enabled: false
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: false

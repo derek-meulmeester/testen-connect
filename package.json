@@ -1,0 +1,37 @@
+{
+  "name": "testen-connect",
+  "private": "true",
+  "scripts": {
+    "lint:ruby": "bundle exec rubocop .",
+    "lint:ruby:fix": "yarn run lint:ruby -A",
+    "lint:ts": "yarn run eslint './app/javascript/**/*.ts?(x)'",
+    "lint:ts:fix": "yarn run lint:ts --fix"
+  },
+  "dependencies": {
+    "@shopify/csrf-token-fetcher": "^2.0.1",
+    "@shopify/dates": "^2.0.3",
+    "@shopify/polaris": "^12.9.0",
+    "@shopify/polaris-icons": "^7.13.0",
+    "@stripe/connect-js": "^3.3.0-beta-1",
+    "@stripe/react-connect-js": "^3.3.1-beta-1",
+    "@tanstack/react-query": "^5.17.12",
+    "axios": "^1.6.5",
+    "query-string": "^8.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.2",
+    "react-world-flags": "^1.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.7",
+    "@babel/eslint-parser": "^7.23.3",
+    "@shopify/eslint-plugin": "^44.0.0",
+    "@tanstack/eslint-plugin-query": "^5.17.7",
+    "@types/node": "^20.11.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.0",
+    "vite-plugin-ruby": "^5.0.0"
+  }
+}

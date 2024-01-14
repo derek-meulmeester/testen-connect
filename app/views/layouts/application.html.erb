@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Testen-Connect</title>
+
+    <%= render "shared/meta" %>
+    <%= render "shared/rails_data" %>
+    <%= inject_rails_data %>
+
+    <%= vite_client_tag %>
+    <%= vite_typescript_tag 'application.tsx' %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
