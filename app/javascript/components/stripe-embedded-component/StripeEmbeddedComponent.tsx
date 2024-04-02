@@ -15,7 +15,7 @@ export const StripeEmbeddedComponent = ({
   children,
 }: React.PropsWithChildren<Props>) => {
   const [sessionError, setSessionError] = React.useState<string | undefined>(
-    undefined,
+    undefined
   );
   const [stripeConnectInstance] = React.useState(() => {
     const fetchClientSecret = async () => {
@@ -44,6 +44,7 @@ export const StripeEmbeddedComponent = ({
       fetchClientSecret,
       appearance: {
         variables: {
+          colorPrimary: "#3C3C3C",
           colorText: "#303030",
           buttonPrimaryColorBackground: "#3C3C3C",
           buttonPrimaryColorText: "#FFFFFF",
