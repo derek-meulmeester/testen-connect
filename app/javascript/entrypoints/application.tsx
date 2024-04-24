@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppProvider as PolarisProvider } from "@shopify/polaris";
 
+import { SettingsContextProvider } from "@/context";
 import { AdapterLink, DashboardFrame } from "@/components";
 
 import "@shopify/polaris/build/esm/styles.css";
@@ -21,7 +22,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <PolarisProvider i18n={{}} linkComponent={AdapterLink}>
         <BrowserRouter>
-          <DashboardFrame />
+          <SettingsContextProvider>
+            <DashboardFrame />
+          </SettingsContextProvider>
         </BrowserRouter>
       </PolarisProvider>
     </QueryClientProvider>

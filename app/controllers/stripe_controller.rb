@@ -62,10 +62,16 @@ class StripeController < ApplicationController
   end
 
   def create_account_session
+    external_account_collection = params.fetch("externalAccountCollection", false)
     account_session = Stripe::AccountSession.create({
       account: params[:account_id],
       components: {
-        account_onboarding: { enabled: true },
+        account_onboarding: {
+          enabled: true,
+          features: {
+            external_account_collection: external_account_collection,
+          },
+        },
         payouts: { enabled: true },
         payment_details: {
           enabled: true,
