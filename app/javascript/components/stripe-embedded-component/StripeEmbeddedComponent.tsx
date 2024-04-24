@@ -5,6 +5,7 @@ import axios, { AxiosError } from "axios";
 import { Banner } from "@shopify/polaris";
 
 import { headers, railsData } from "@/utilities";
+import { useSettingsContext } from "@/context";
 
 interface Props {
   accountId: string;
@@ -14,6 +15,7 @@ export const StripeEmbeddedComponent = ({
   accountId,
   children,
 }: React.PropsWithChildren<Props>) => {
+  const { externalAccountCollection } = useSettingsContext();
   const [sessionError, setSessionError] = React.useState<string | undefined>(
     undefined
   );
@@ -24,7 +26,9 @@ export const StripeEmbeddedComponent = ({
       }
 
       try {
-        const data = undefined;
+        const data = {
+          externalAccountCollection,
+        };
         const url = `/api/stripe/account/${accountId}/account_session`;
         const response = await axios.post(url, data, {
           headers: headers(),

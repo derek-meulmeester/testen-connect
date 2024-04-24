@@ -7,13 +7,18 @@ import {
   Text,
   InlineCode,
   Link,
+  FormLayout,
+  Checkbox,
 } from "@shopify/polaris";
 
 import { railsData, truncate } from "@/utilities";
+import { useSettingsContext } from "@/context";
 
 export default function Settings() {
   const platformId = railsData("stripe.platformId");
   const publishableKey = railsData("stripe.publishableKey");
+  const { externalAccountCollection, setExternalAccountCollection } =
+    useSettingsContext();
 
   return (
     <Page title="Settings">
@@ -52,6 +57,25 @@ export default function Settings() {
                   </InlineCode>
                 </Text>
               </div>
+            </BlockStack>
+          </Card>
+        </Layout.AnnotatedSection>
+
+        <Layout.AnnotatedSection
+          id="componentFeatures"
+          title="Component Features"
+          description="Control what features are enabled on Embedded Components."
+        >
+          <Card>
+            <BlockStack gap="500">
+              <FormLayout>
+                <Checkbox
+                  label="External account collection"
+                  helpText="This only applies to custom accounts. When selected Stripe collects External Account information during onboarding."
+                  checked={externalAccountCollection}
+                  onChange={(value) => setExternalAccountCollection(value)}
+                />
+              </FormLayout>
             </BlockStack>
           </Card>
         </Layout.AnnotatedSection>
