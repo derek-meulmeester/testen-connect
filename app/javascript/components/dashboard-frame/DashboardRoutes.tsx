@@ -9,6 +9,8 @@ import {
   NotFound,
   Settings,
   AccountManagement,
+  ProductsList,
+  ProductPage,
 } from "@/sections";
 
 export function DashboardRoutes() {
@@ -22,6 +24,11 @@ export function DashboardRoutes() {
       <Route
         path="/accounts/:accountId/manage"
         element={<AccountManagement />}
+      />
+      <Route path="/accounts/:accountId/products" element={<ProductsList />} />
+      <Route
+        path="/accounts/:accountId/products/:productId"
+        element={<ProductPage />}
       />
       <Route path="/accounts/:accountId/payments" element={<Payments />} />
       <Route path="/accounts/:accountId/payouts" element={<Payouts />} />
