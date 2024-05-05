@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   # Customers
   get "/api/stripe/customers" => "stripe#list_customers"
 
+  # Subscriptions
+  get "/api/stripe/subscriptions" => "stripe#list_subscriptions"
+
   root to: "dashboard#index"
   get "/*react_route", to: "dashboard#index"
 end

@@ -7,3 +7,4 @@ export * from "./Payments";
 export * from "./Payouts";
 export * from "./ProductsList";
 export * from "./ProductPage";
+export * from "./SubscriptionsList";

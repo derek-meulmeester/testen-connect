@@ -9,4 +9,5 @@ export * from "./product-create-modal";
 export * from "./productss-table";
 export * from "./sidenav";
 export * from "./stripe-embedded-component";
+export * from "./subscriptions-table";
 export * from "./topbar";

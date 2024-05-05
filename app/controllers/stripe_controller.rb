@@ -128,6 +128,16 @@ class StripeController < ApplicationController
     render json: { error: error.message }, status: 500
   end
 
+  def list_subscriptions
+    headers = {stripe_account: params[:account_id]}
+    stripe_subscription = Stripe::Subscription.list({ limit: params[:limit] || 20}, headers)
+
+    render json: stripe_subscription
+  rescue => error
+    puts "Error listing subscriptions: #{error}"
+    render json: { error: error.message }, status: 500
+  end
+
   def create_account_link
     account_id = account_link_params.fetch(:account_id)
     options = account_link_params.except(:account_id)

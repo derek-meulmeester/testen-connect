@@ -12,6 +12,7 @@ import {
   ProductsList,
   ProductPage,
   CustomersList,
+  SubscriptionsList,
 } from "@/sections";
 
 export function DashboardRoutes() {
@@ -31,7 +32,14 @@ export function DashboardRoutes() {
         path="/accounts/:accountId/products/:productId"
         element={<ProductPage />}
       />
-      <Route path="/accounts/:accountId/customers" element={<CustomersList />} />
+      <Route
+        path="/accounts/:accountId/customers"
+        element={<CustomersList />}
+      />
+      <Route
+        path="/accounts/:accountId/subscriptions"
+        element={<SubscriptionsList />}
+      />
       <Route path="/accounts/:accountId/payments" element={<Payments />} />
       <Route path="/accounts/:accountId/payouts" element={<Payouts />} />
       <Route path="/settings" element={<Settings />} />
