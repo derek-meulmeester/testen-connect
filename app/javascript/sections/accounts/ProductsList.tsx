@@ -2,17 +2,18 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Bleed, Card, Page, Layout } from "@shopify/polaris";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import {
-  AccountCreateModal,
-  AccountsTable,
   PageLoadingState,
+  ProductCreateModal,
+  ProductsTable,
 } from "@/components";
 import { PageInfo, pagingQueryParams } from "@/utilities";
 
-export const AccountsList = () => {
+export const ProductsList = () => {
   const navigate = useNavigate();
+  const { accountId } = useParams();
   const [searchParams] = useSearchParams();
   const [modalOpen, setModalOpen] = React.useState(
     searchParams.get("create") === "true"
@@ -22,18 +23,20 @@ export const AccountsList = () => {
     page: 1,
   });
 
-  const listAccountsApi = () =>
+  const listProductsApi = () =>
     axios
-      .get(`/api/stripe/accounts?${pagingQueryParams(pageInfo)}`)
+      .get(
+        `/api/stripe/products?account_id=${accountId}&${pagingQueryParams(pageInfo)}`
+      )
       .then((res) => res.data);
 
   const { isPending, error, data, refetch } = useQuery({
-    queryKey: ["accountsList", pagingQueryParams(pageInfo)],
-    queryFn: listAccountsApi,
+    queryKey: ["productsList", accountId, pagingQueryParams(pageInfo)],
+    queryFn: listProductsApi,
   });
 
   const onNext = React.useCallback(
-    (accountId: string) => {
+    (cursor: string) => {
       const { page } = pageInfo;
       const newPage = page + 1;
 
@@ -41,14 +44,14 @@ export const AccountsList = () => {
         ...pageInfo,
         page: newPage,
         direction: "next",
-        cursor: accountId,
+        cursor: cursor,
       });
     },
     [pageInfo, setPageInfo]
   );
 
   const onPrevious = React.useCallback(
-    (accountId: string) => {
+    (cursor: string) => {
       const { page } = pageInfo;
       const newPage = page - 1 < 1 ? 1 : page - 1;
 
@@ -56,16 +59,16 @@ export const AccountsList = () => {
         ...pageInfo,
         page: newPage,
         direction: newPage === 1 ? undefined : "previous",
-        cursor: newPage === 1 ? undefined : accountId,
+        cursor: newPage === 1 ? undefined : cursor,
       });
     },
     [pageInfo, setPageInfo]
   );
 
   const onCreated = React.useCallback(
-    (accountId: string) => {
+    (priceId: string) => {
       refetch();
-      navigate(`/accounts/${accountId}/onboarding`);
+      navigate(`/accounts/${accountId}/products/${priceId}`);
     },
     [refetch, navigate]
   );
@@ -81,8 +84,8 @@ export const AccountsList = () => {
     content = (
       <Card>
         <Bleed marginInline="400" marginBlock="400">
-          <AccountsTable
-            accounts={data.data}
+          <ProductsTable
+            products={data.data}
             hasNext={data.has_more}
             hasPrevious={pageInfo.page > 1}
             onNext={onNext}
@@ -97,9 +100,9 @@ export const AccountsList = () => {
 
   return (
     <Page
-      title="Accounts"
+      title="Products"
       primaryAction={{
-        content: "Create Account",
+        content: "Create Product",
         onAction: () => {
           setModalOpen(true);
         },
@@ -108,7 +111,7 @@ export const AccountsList = () => {
       <Layout>
         <Layout.Section>{content}</Layout.Section>
       </Layout>
-      <AccountCreateModal
+      <ProductCreateModal
         open={modalOpen}
         onCreated={onCreated}
         onClose={() => {

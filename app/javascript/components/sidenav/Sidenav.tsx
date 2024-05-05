@@ -10,7 +10,7 @@ interface Props {
 export default function Sidenav(props: Props) {
   const { pathname } = useLocation();
   const { onItemSelect } = props;
-  const match = matchPath("/accounts/:accountId/:component", pathname);
+  const match = matchPath("/accounts/:accountId/*", pathname);
   const { accountId } = match?.params || {};
 
   return (
@@ -33,6 +33,10 @@ export default function Sidenav(props: Props) {
                   {
                     label: "Manage",
                     url: `/accounts/${accountId}/manage`,
+                  },
+                  {
+                    label: "Products",
+                    url: `/accounts/${accountId}/products`,
                   },
                   {
                     label: "Payments",
