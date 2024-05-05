@@ -72,6 +72,12 @@ class StripeController < ApplicationController
             external_account_collection: external_account_collection,
           },
         },
+        account_management: {
+          enabled: true,
+          features: {
+            external_account_collection: external_account_collection,
+          },
+        },
         payouts: { enabled: true },
         payment_details: {
           enabled: true,
