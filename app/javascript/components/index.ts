@@ -6,7 +6,7 @@ export * from "./customers-table";
 export * from "./dashboard-frame";
 export * from "./loading-state";
 export * from "./product-create-modal";
-export * from "./productss-table";
+export * from "./products-table";
 export * from "./sidenav";
 export * from "./stripe-embedded-component";
 export * from "./subscriptions-table";
