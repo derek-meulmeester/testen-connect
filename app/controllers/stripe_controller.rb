@@ -102,6 +102,9 @@ class StripeController < ApplicationController
             quantity: 1,
           },
         ],
+        phone_number_collection: {
+          enabled: true,
+        },
       }, headers)
     rescue => error
       puts "Error creating payment link: #{error}"
@@ -113,6 +116,16 @@ class StripeController < ApplicationController
     else
       redirect_to "/not-found"
     end
+  end
+
+  def list_customers
+    headers = {stripe_account: params[:account_id]}
+    stripe_customers = Stripe::Customer.list({ limit: params[:limit] || 20}, headers)
+
+    render json: stripe_customers
+  rescue => error
+    puts "Error listing customers: #{error}"
+    render json: { error: error.message }, status: 500
   end
 
   def create_account_link
