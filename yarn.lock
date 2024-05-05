@@ -453,22 +453,6 @@
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.14.2.tgz#4d58f59908d9197ba3179310077f25c88e49ed17"
   integrity sha512-ACXpdMM9hmKZww21yEqWwiLws/UPLhNKvimN8RrYSqPSvB3ov7sLvAcfvaxePeLvccTQKGdkDIhLYApZVDFuKg==
 
-"@rollup/plugin-json@^6.0.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-json/-/plugin-json-6.1.0.tgz#fbe784e29682e9bb6dee28ea75a1a83702e7b805"
-  integrity sha512-EGI2te5ENk1coGeADSIwZ7G2Q8CJS2sF120T7jLw4xFw9n7wIOXHo+kIYRAoVpJAN+kmqZSoO3Fp4JtoNF4ReA==
-  dependencies:
-    "@rollup/pluginutils" "^5.1.0"
-
-"@rollup/pluginutils@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-5.1.0.tgz#7e53eddc8c7f483a4ad0b94afb1f7f5fd3c771e0"
-  integrity sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==
-  dependencies:
-    "@types/estree" "^1.0.0"
-    estree-walker "^2.0.2"
-    picomatch "^2.3.1"
-
 "@rollup/rollup-android-arm-eabi@4.9.5":
   version "4.9.5"
   resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.9.5.tgz#b752b6c88a14ccfcbdf3f48c577ccc3a7f0e66b9"
@@ -610,17 +594,15 @@
     react-fast-compare "^3.2.0"
     react-transition-group "^4.4.2"
 
-"@stripe/connect-js@^3.3.0-beta-1":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.3.0.tgz#e793e19cc48cc59a777f97348e9020bde3f70fa5"
-  integrity sha512-94u7QVt3UfIRksUOQka4ecUOtz2DxqUrBNf2KxlJUWHmNGd1awTGtAFqt09RpihpsPQUvZdGHshemPYTJSiMkQ==
-  dependencies:
-    "@rollup/plugin-json" "^6.0.0"
+"@stripe/connect-js@^3.3.5":
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.3.5.tgz#cb9344e519d39c9397f180b74e31912eac251fe4"
+  integrity sha512-wPr5y5XxSsXAbyonSz6jWsZru62PYOoTxNDxVH467+1PgiYSBqq0jvBItGzI/2bGFe89GTcY/kwqABe0Qg3orw==
 
-"@stripe/react-connect-js@^3.3.1-beta-1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.1.tgz#3a4b80e3c5f03e3babbb2c10493dee2c5f00ad68"
-  integrity sha512-PNF+jYenCF/Dmq1RaMUJAlttBs3mOFHBy4E/qNCB9iBKV43bUAfdZVQSLX6QKKVj31dPZ5B9RNchx1UJSDzeVg==
+"@stripe/react-connect-js@^3.3.7":
+  version "3.3.7"
+  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.7.tgz#f784e1a3f1bffec87c1c7c26db187397c15066d2"
+  integrity sha512-TM7OVXFv1Ed24x76VtmHvN1mfDsMVmJOzhDpFSRY/o4vegwnmmkfRD6OOEIBSaSXDagYZUgqGkKqEmss1lozKg==
 
 "@tanstack/eslint-plugin-query@^5.17.7":
   version "5.17.7"
@@ -646,7 +628,7 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
-"@types/estree@1.0.5", "@types/estree@^1.0.0":
+"@types/estree@1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.5.tgz#a6ce3e556e00fd9895dd872dd172ad0d4bd687f4"
   integrity sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==
@@ -1792,11 +1774,6 @@ estraverse@^5.1.0, estraverse@^5.2.0, estraverse@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-5.3.0.tgz#2eea5290702f26ab8fe5370370ff86c965d21123"
   integrity sha512-MMdARuVEQziNTeJD8DgMqmhwR11BRQ/cBP+pLtYdSTnf3MIO8fFeiINEbX36ZdNlfU/7A9f3gUw49B3oQsvwBA==
-
-estree-walker@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
-  integrity sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
 
 esutils@^2.0.2:
   version "2.0.3"
