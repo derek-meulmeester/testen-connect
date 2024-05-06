@@ -60,12 +60,11 @@ class StripeController < ApplicationController
     stripe_product = Stripe::Product.create({
       name: params[:name],
       description: params[:description],
-    }, headers)
-    stripe_pice = Stripe::Price.create({
-      currency: 'cad',
-      unit_amount: params[:unit_amount],
-      recurring: {interval: 'month'},
-      product: stripe_product.id,
+      default_price_data: {
+        currency: 'cad',
+        unit_amount: params[:unit_amount],
+        recurring: {interval: 'month'},
+      },
     }, headers)
 
     render json: stripe_product
@@ -89,16 +88,12 @@ class StripeController < ApplicationController
   def create_payment_link
     stripe_payment_link = begin
       headers = {stripe_account: params[:account_id]}
-      stripe_prices = Stripe::Price.search({
-        query: "active:'true' AND product:'#{params[:product_id]}'",
-        limit: 1,
-      }, headers)
-      stripe_price = stripe_prices.first
+      stripe_product = Stripe::Product.retrieve(params[:product_id], headers)
 
       Stripe::PaymentLink.create({
         line_items: [
           {
-            price: stripe_price&.id,
+            price: stripe_product.default_price,
             quantity: 1,
           },
         ],
@@ -113,6 +108,37 @@ class StripeController < ApplicationController
 
     if stripe_payment_link
       redirect_to stripe_payment_link.url, allow_other_host: true
+    else
+      redirect_to "/not-found"
+    end
+  end
+
+  def create_checkout_link
+    stripe_checkout = begin
+      headers = {stripe_account: params[:account_id]}
+      stripe_product = Stripe::Product.retrieve(params[:product_id], headers)
+      stripe_customers = Stripe::Customer.search({
+        query: "email:'#{params[:email]}'"
+      }, headers)
+
+      Stripe::Checkout::Session.create({
+        success_url: "http://localhost:5100/success",
+        line_items: [
+          {
+            price: stripe_product.default_price,
+            quantity: 1,
+          },
+        ],
+        mode: 'subscription',
+        customer: stripe_customers.first&.id,
+      }, headers)
+    rescue => error
+      puts "Error creating checkout link: #{error}"
+      nil
+    end
+
+    if stripe_checkout
+      redirect_to stripe_checkout.url, allow_other_host: true
     else
       redirect_to "/not-found"
     end

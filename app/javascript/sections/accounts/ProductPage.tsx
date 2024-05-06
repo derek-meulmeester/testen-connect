@@ -51,6 +51,14 @@ export const ProductPage = () => {
     );
   }, []);
 
+  const handleCreateCheckoutLink = React.useCallback(() => {
+    const email = encodeURIComponent("derekm+123@stripe.com");
+    window.open(
+      `/api/stripe/accounts/${accountId}/products/${productId}/checkout?email=${email}`,
+      "_blank"
+    );
+  }, []);
+
   if (isPending) {
     return <PageLoadingState />;
   }
@@ -91,6 +99,11 @@ export const ProductPage = () => {
         onAction: handleCreatePaymentLink,
       }}
       secondaryActions={[
+        {
+          content: "Invite customer",
+          accessibilityLabel: "Invite customer",
+          onAction: handleCreateCheckoutLink,
+        },
         {
           content: product?.active ? "Archive" : "Activate",
           accessibilityLabel: "Archive product",

@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   # Payment Links
   get "/api/stripe/accounts/:account_id/products/:product_id/link" => "stripe#create_payment_link"
 
+  # Checkout
+  get "/api/stripe/accounts/:account_id/products/:product_id/checkout" => "stripe#create_checkout_link"
+
   # Customers
   get "/api/stripe/customers" => "stripe#list_customers"
 
