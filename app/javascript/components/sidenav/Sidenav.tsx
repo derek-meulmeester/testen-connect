@@ -54,6 +54,10 @@ export default function Sidenav(props: Props) {
                     label: "Payouts",
                     url: `/accounts/${accountId}/payouts`,
                   },
+                  {
+                    label: "Documents",
+                    url: `/accounts/${accountId}/documents`,
+                  },
                 ]
               : undefined,
           },

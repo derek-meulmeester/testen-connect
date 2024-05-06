@@ -206,6 +206,9 @@ class StripeController < ApplicationController
             external_account_collection: external_account_collection,
           },
         },
+        documents: {
+          enabled: true,
+        },
         payouts: {
           enabled: true,
           features: {
