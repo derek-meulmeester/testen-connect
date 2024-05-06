@@ -1,6 +1,9 @@
 import React from "react";
 import { Layout, Page } from "@shopify/polaris";
-import { ConnectAccountManagement } from "@stripe/react-connect-js";
+import {
+  ConnectAccountManagement,
+  ConnectNotificationBanner,
+} from "@stripe/react-connect-js";
 import { useParams } from "react-router-dom";
 
 import { StripeEmbeddedComponent } from "@/components";
@@ -15,11 +18,14 @@ export const AccountManagement = () => {
   return (
     <Page title="Account Management" backAction={{ url: "/accounts" }}>
       <Layout>
-        <Layout.Section>
-          <StripeEmbeddedComponent accountId={accountId}>
+        <StripeEmbeddedComponent accountId={accountId}>
+          <Layout.Section>
+            <ConnectNotificationBanner />
+          </Layout.Section>
+          <Layout.Section>
             <ConnectAccountManagement />
-          </StripeEmbeddedComponent>
-        </Layout.Section>
+          </Layout.Section>
+        </StripeEmbeddedComponent>
       </Layout>
     </Page>
   );

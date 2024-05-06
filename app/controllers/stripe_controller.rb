@@ -194,6 +194,12 @@ class StripeController < ApplicationController
     account_session = Stripe::AccountSession.create({
       account: params[:account_id],
       components: {
+        notification_banner: {
+          enabled: true,
+          features: {
+            external_account_collection: external_account_collection,
+          },
+        },
         account_onboarding: {
           enabled: true,
           features: {
