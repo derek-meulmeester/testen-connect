@@ -206,7 +206,14 @@ class StripeController < ApplicationController
             external_account_collection: external_account_collection,
           },
         },
-        payouts: { enabled: true },
+        payouts: {
+          enabled: true,
+          features: {
+            instant_payouts: true,
+            standard_payouts: true,
+            edit_payout_schedule: true,
+          }
+        },
         payment_details: {
           enabled: true,
           features: {
