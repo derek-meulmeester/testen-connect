@@ -14,6 +14,7 @@ import {
   CustomersList,
   SubscriptionsList,
   Documents,
+  InvoicesList,
 } from "@/sections";
 
 export function DashboardRoutes() {
@@ -41,6 +42,7 @@ export function DashboardRoutes() {
         path="/accounts/:accountId/subscriptions"
         element={<SubscriptionsList />}
       />
+      <Route path="/accounts/:accountId/invoices" element={<InvoicesList />} />
       <Route path="/accounts/:accountId/payments" element={<Payments />} />
       <Route path="/accounts/:accountId/payouts" element={<Payouts />} />
       <Route path="/accounts/:accountId/documents" element={<Documents />} />

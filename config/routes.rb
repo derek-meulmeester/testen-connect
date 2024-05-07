@@ -32,6 +32,9 @@ Rails.application.routes.draw do
   # Subscriptions
   get "/api/stripe/subscriptions" => "stripe#list_subscriptions"
 
+  # Invoices
+  get "/api/stripe/invoices" => "stripe#list_invoices"
+
   root to: "dashboard#index"
   get "/*react_route", to: "dashboard#index"
 end

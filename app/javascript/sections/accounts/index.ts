@@ -4,6 +4,7 @@ export * from "./AccountManagement";
 export * from "./AccountOnboarding";
 export * from "./CustomersList";
 export * from "./Documents";
+export * from "./InvoicesList";
 export * from "./Payments";
 export * from "./Payouts";
 export * from "./ProductsList";

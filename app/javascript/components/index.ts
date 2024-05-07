@@ -4,6 +4,7 @@ export * from "./accounts-table";
 export * from "./adapter-link";
 export * from "./customers-table";
 export * from "./dashboard-frame";
+export * from "./invoices-table";
 export * from "./loading-state";
 export * from "./product-create-modal";
 export * from "./products-table";
