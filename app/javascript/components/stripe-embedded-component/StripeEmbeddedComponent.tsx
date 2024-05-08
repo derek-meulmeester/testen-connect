@@ -61,7 +61,7 @@ export const StripeEmbeddedComponent = ({
           borderRadius: "8px",
           formHighlightColorBorder: "#3C3C3C",
           formAccentColor: "#3C3C3C",
-          spacingUnit: "12px",
+          spacingUnit: "10px",
         },
       },
     });
