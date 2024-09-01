@@ -18,7 +18,6 @@ import {
   countries,
   formatAccountCreateData,
   headers,
-  isLockedCapabilityType,
 } from "@/utilities";
 
 interface Props {
@@ -147,9 +146,7 @@ export const AccountCreateModal = ({ open, onClose, onCreated }: Props) => {
             <ChoiceList
               allowMultiple
               title="Capabilities"
-              disabled={
-                isLockedCapabilityType(accountType) || mutation.isPending
-              }
+              disabled={mutation.isPending}
               choices={capabilityChoices}
               selected={capabilities}
               onChange={handleCapabilitiesChange}

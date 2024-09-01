@@ -1,10 +1,16 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { ConnectAccountOnboarding } from "@stripe/react-connect-js";
 import { Layout, Page } from "@shopify/polaris";
 
 import { useAttributeControls } from "@/sections";
-import { AccountLinkModal, StripeEmbeddedComponent } from "@/components";
+import {
+  AccountLinkModal,
+  PageLoadingState,
+  StripeEmbeddedComponent,
+} from "@/components";
 
 export const AccountOnboarding = () => {
   const [linkModalOpen, setLinkModalOpen] = React.useState(false);
@@ -18,21 +24,56 @@ export const AccountOnboarding = () => {
     includeEventuallyDue,
     includeFutureRequirements,
   } = attributeValues;
+  const retrieveAccountApi = () =>
+    axios.get(`/api/stripe/account/${accountId}`).then((res) => res.data);
+
+  const {
+    isPending,
+    error,
+    data: account,
+  } = useQuery({
+    queryKey: ["accountRetrieve", accountId],
+    queryFn: retrieveAccountApi,
+  });
 
   const onExit = React.useCallback(() => {
     // eslint-disable-next-line no-alert
     window.alert("onExit emitted!");
   }, []);
 
+  const openExpressDashboard = React.useCallback(() => {
+    window.open(`/api/stripe/account/${accountId}/login_link`, "_blank");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (!accountId) {
-    return <p>Error loading account</p>;
+    return <p>No account provided</p>;
   }
+
+  if (error) {
+    return <p>{error.message}</p>;
+  }
+
+  if (isPending) {
+    return <PageLoadingState />;
+  }
+
+  const secondaryActions =
+    account.controller?.stripe_dashboard?.type === "express"
+      ? [
+          {
+            content: "Express dashboard",
+            onAction: openExpressDashboard,
+          },
+        ]
+      : [];
 
   return (
     <Page
       title="Account Onboarding"
       backAction={{ url: "/accounts" }}
       secondaryActions={[
+        ...secondaryActions,
         {
           content: "Hosted Onboarding",
           onAction: () => setLinkModalOpen(true),

@@ -17,7 +17,7 @@ export const StripeEmbeddedComponent = ({
 }: React.PropsWithChildren<Props>) => {
   const { externalAccountCollection } = useSettingsContext();
   const [sessionError, setSessionError] = React.useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [stripeConnectInstance] = React.useState(() => {
     const fetchClientSecret = async () => {
@@ -47,6 +47,7 @@ export const StripeEmbeddedComponent = ({
       publishableKey: railsData("stripe.publishableKey"),
       fetchClientSecret,
       appearance: {
+        overlays: "drawer",
         variables: {
           colorPrimary: "#3C3C3C",
           colorText: "#303030",

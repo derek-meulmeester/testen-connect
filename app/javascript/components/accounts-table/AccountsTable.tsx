@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Flag from "react-world-flags";
@@ -10,6 +11,11 @@ type Account = {
   country: string;
   email?: string;
   created: number;
+  controller: {
+    stripe_dashboard: {
+      type: "full" | "express" | "none";
+    };
+  };
 };
 
 type Props = {
@@ -45,6 +51,7 @@ export const AccountsTable = ({
         { title: "Email" },
         { title: "Country" },
         { title: "Type" },
+        { title: "Dashboard" },
         { title: "Created" },
       ]}
       pagination={{
@@ -58,31 +65,40 @@ export const AccountsTable = ({
         },
       }}
     >
-      {accounts.map(({ id, type, country, email, created }, index) => (
-        <IndexTable.Row
-          id={id}
-          key={id}
-          position={index}
-          onNavigation={onNavigation}
-        >
-          <IndexTable.Cell>
-            <Link monochrome dataPrimaryLink url={`/accounts/${id}/onboarding`}>
-              <Text variant="bodyMd" fontWeight="bold" as="span">
-                {id}
-              </Text>
-            </Link>
-          </IndexTable.Cell>
-          <IndexTable.Cell>{email}</IndexTable.Cell>
-          <IndexTable.Cell>
-            <Flag code={country} width="20" />
-            <span style={{ marginLeft: "8px" }}>{country}</span>
-          </IndexTable.Cell>
-          <IndexTable.Cell>{type}</IndexTable.Cell>
-          <IndexTable.Cell>
-            {format(new Date(created * 1000), "YYYY-MM-DD")}
-          </IndexTable.Cell>
-        </IndexTable.Row>
-      ))}
+      {accounts.map(
+        ({ id, type, controller, country, email, created }, index) => (
+          <IndexTable.Row
+            id={id}
+            key={id}
+            position={index}
+            onNavigation={onNavigation}
+          >
+            <IndexTable.Cell>
+              <Link
+                monochrome
+                dataPrimaryLink
+                url={`/accounts/${id}/onboarding`}
+              >
+                <Text variant="bodyMd" fontWeight="bold" as="span">
+                  {id}
+                </Text>
+              </Link>
+            </IndexTable.Cell>
+            <IndexTable.Cell>{email}</IndexTable.Cell>
+            <IndexTable.Cell>
+              <Flag code={country} width="20" />
+              <span style={{ marginLeft: "8px" }}>{country}</span>
+            </IndexTable.Cell>
+            <IndexTable.Cell>{type}</IndexTable.Cell>
+            <IndexTable.Cell>
+              {controller?.stripe_dashboard?.type}
+            </IndexTable.Cell>
+            <IndexTable.Cell>
+              {format(new Date(created * 1000), "YYYY-MM-DD")}
+            </IndexTable.Cell>
+          </IndexTable.Row>
+        ),
+      )}
     </IndexTable>
   ) : (
     <EmptyState

@@ -1,5 +1,3 @@
-const lockedCapabilityAccountTypes = ["standard", "UA2"];
-
 export const capabilityChoices = [
   {
     label: "Transfers",
@@ -26,9 +24,6 @@ export const capabilityChoices = [
     value: "tax_reporting_us_1099_misc",
   },
 ];
-
-export const isLockedCapabilityType = (type: string) =>
-  lockedCapabilityAccountTypes.includes(type);
 
 export const capabilityReducer = (acc, cap) => {
   return {

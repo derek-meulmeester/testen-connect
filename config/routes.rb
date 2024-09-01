@@ -10,8 +10,10 @@ Rails.application.routes.draw do
   # Accounts
   get "/api/stripe/accounts" => "stripe#list_accounts"
   post "/api/stripe/account" => "stripe#create_account"
+  post "/api/stripe/account" => "stripe#create_account"
   get "/api/stripe/account/:account_id" => "stripe#retrieve_account"
   get "/api/stripe/account/:account_id/account_link" => "stripe#create_account_link", as: :stripe_account_link
+  get "/api/stripe/account/:account_id/login_link" => "stripe#create_login_link", as: :stripe_login_link
   post "/api/stripe/account/:account_id/account_session" => "stripe#create_account_session"
 
   # Products

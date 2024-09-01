@@ -1,9 +1,15 @@
-import { capabilityReducer, isLockedCapabilityType } from "./capabilities";
+/* eslint-disable @typescript-eslint/naming-convention */
+import { capabilityReducer } from "./capabilities";
 
 export const accountTypes = [
   { label: "Custom", value: "custom" },
   { label: "Express", value: "express" },
   { label: "Standard", value: "standard" },
+  { label: "UA1", value: "ua1" },
+  { label: "UA2", value: "ua2" },
+  { label: "UA3", value: "ua3" },
+  { label: "UA5", value: "ua5" },
+  { label: "UA7", value: "ua7" },
 ];
 
 export const countries = [
@@ -59,12 +65,58 @@ export const countries = [
   { label: "United Kingdom", value: "GB" },
 ];
 
-interface AccountCreateOptions {
+const typeConfigs = {
+  standard: { type: "standard" },
+  custom: { type: "custom" },
+  express: { type: "express" },
+  ua1: {
+    controller: {
+      fees: { payer: "application" },
+      losses: { payments: "stripe" },
+      requirement_collection: "stripe",
+      stripe_dashboard: { type: "full" },
+    },
+  },
+  ua2: {
+    controller: {
+      fees: { payer: "account" },
+      losses: { payments: "stripe" },
+      requirement_collection: "stripe",
+      stripe_dashboard: { type: "full" },
+    },
+  },
+  ua3: {
+    controller: {
+      fees: { payer: "account" },
+      losses: { payments: "application" },
+      requirement_collection: "stripe",
+      stripe_dashboard: { type: "express" },
+    },
+  },
+  ua5: {
+    controller: {
+      fees: { payer: "application" },
+      losses: { payments: "application" },
+      requirement_collection: "stripe",
+      stripe_dashboard: { type: "express" },
+    },
+  },
+  ua7: {
+    controller: {
+      fees: { payer: "account" },
+      losses: { payments: "stripe" },
+      requirement_collection: "stripe",
+      stripe_dashboard: { type: "none" },
+    },
+  },
+};
+
+type AccountCreateOptions = {
   type: string;
   country: string;
   email?: string;
   capabilities: string[];
-}
+};
 
 export const formatAccountCreateData = ({
   type,
@@ -73,11 +125,11 @@ export const formatAccountCreateData = ({
   capabilities,
 }: AccountCreateOptions) => {
   const data: Record<string, unknown> = {
-    type,
+    ...typeConfigs[type],
     country,
-    capabilities: isLockedCapabilityType(type)
-      ? undefined
-      : capabilities.reduce(capabilityReducer, {}),
+    capabilities: capabilities.length
+      ? capabilities.reduce(capabilityReducer, {})
+      : undefined,
   };
 
   if (email) {

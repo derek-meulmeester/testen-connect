@@ -23,12 +23,13 @@ class StripeController < ApplicationController
   end
 
   def create_account
-    stripe_account = Stripe::Account.create({
-      type: params[:type],
-      country: params[:country],
-      email: params[:email],
-      capabilities: params.to_unsafe_h[:capabilities],
-    })
+    create_params = account_create_params.to_h
+    controller_params = account_create_controller_params.to_h["stripe"]
+    if controller_params["controller"]
+      create_params["controller"] = controller_params["controller"]
+    end
+
+    stripe_account = Stripe::Account.create(create_params)
 
     render json: stripe_account
   rescue => error
@@ -199,6 +200,21 @@ class StripeController < ApplicationController
     end
   end
 
+  def create_login_link
+    login_link = begin
+      Stripe::Account.create_login_link(params[:account_id])
+    rescue => error
+      puts "Error creating express login link: #{error}"
+      nil
+    end
+
+    if login_link
+      redirect_to login_link.url, allow_other_host: true
+    else
+      redirect_to "/not-found"
+    end
+  end
+
   def create_account_session
     external_account_collection = params.fetch("externalAccountCollection", false)
     account_session = Stripe::AccountSession.create({
@@ -263,5 +279,30 @@ class StripeController < ApplicationController
 
   def account_link_params
     params.permit(:account_id, :type, collection_options: [:fields, :future_requirements])
+  end
+
+  def account_create_params
+    params.permit(
+      :type,
+      :country,
+      :email,
+      capabilities: [
+        card_payments: [:requested],
+        transfers: [:requested],
+      ],
+    )
+  end
+
+  def account_create_controller_params
+    params.permit(
+      stripe: [
+        controller: [
+          :requirement_collection,
+          fees: [:payer],
+          losses: [:payments],
+          stripe_dashboard: [:type],
+        ]
+      ],
+    )
   end
 end
