@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { ConnectAccountOnboarding } from "@stripe/react-connect-js";
-import { Layout, Page } from "@shopify/polaris";
+import { Action, Layout, Page } from "@shopify/polaris";
 
 import { useAttributeControls } from "@/sections";
 import {
@@ -41,6 +41,10 @@ export const AccountOnboarding = () => {
     window.alert("onExit emitted!");
   }, []);
 
+  const openStandardDashboard = React.useCallback(() => {
+    window.open("https://dashboard.stripe.com", "_blank");
+  }, []);
+
   const openExpressDashboard = React.useCallback(() => {
     window.open(`/api/stripe/account/${accountId}/login_link`, "_blank");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,15 +62,21 @@ export const AccountOnboarding = () => {
     return <PageLoadingState />;
   }
 
-  const secondaryActions =
-    account.controller?.stripe_dashboard?.type === "express"
-      ? [
-          {
-            content: "Express dashboard",
-            onAction: openExpressDashboard,
-          },
-        ]
-      : [];
+  const secondaryActions: Action[] = [];
+  switch (account.controller?.stripe_dashboard?.type) {
+    case "express":
+      secondaryActions.push({
+        content: "Express dashboard",
+        onAction: openExpressDashboard,
+      });
+      break;
+    case "full":
+      secondaryActions.push({
+        content: "Standard dashboard",
+        onAction: openStandardDashboard,
+      });
+      break;
+  }
 
   return (
     <Page
