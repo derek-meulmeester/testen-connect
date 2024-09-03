@@ -15,10 +15,9 @@ export const useSettingsContext = () => React.useContext(SettingsContext);
 export function SettingsContextProvider({
   children,
 }: PropsWithChildren<Partial<SettingContextProps>>) {
+  const localStorageValue = localStorage.getItem("externalAccountCollection");
   const [externalAccountCollection, _setExternalAccountCollection] =
-    React.useState(
-      localStorage.getItem("externalAccountCollection") === "true",
-    );
+    React.useState(!localStorageValue || localStorageValue === "true");
 
   const setExternalAccountCollection = React.useCallback(
     (value: boolean) => {
