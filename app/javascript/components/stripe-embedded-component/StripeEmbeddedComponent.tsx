@@ -1,4 +1,5 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { loadConnectAndInitialize } from "@stripe/connect-js";
 import { ConnectComponentsProvider } from "@stripe/react-connect-js";
 import axios, { AxiosError } from "axios";
@@ -6,6 +7,7 @@ import { Banner } from "@shopify/polaris";
 
 import { headers, railsData } from "@/utilities";
 import { useSettingsContext } from "@/context";
+import { PageLoadingState } from "@/components";
 
 interface Props {
   accountId: string;
@@ -19,6 +21,17 @@ export const StripeEmbeddedComponent = ({
   const [sessionError, setSessionError] = React.useState<string | undefined>(
     undefined,
   );
+  const retrieveAccountApi = () =>
+    axios.get(`/api/stripe/account/${accountId}`).then((res) => res.data);
+  const {
+    isPending,
+    error: retrieveAccountError,
+    data: account,
+  } = useQuery({
+    queryKey: ["accountRetrieve", accountId],
+    queryFn: retrieveAccountApi,
+  });
+
   const [stripeConnectInstance] = React.useState(() => {
     const fetchClientSecret = async () => {
       if (!accountId) {
@@ -26,9 +39,10 @@ export const StripeEmbeddedComponent = ({
       }
 
       try {
-        const data = {
-          externalAccountCollection,
-        };
+        const data: Record<string, unknown> = {};
+        if (account?.controller?.requirement_collection === "application") {
+          data.externalAccountCollection = externalAccountCollection;
+        }
         const url = `/api/stripe/account/${accountId}/account_session`;
         const response = await axios.post(url, data, {
           headers: headers(),
@@ -67,6 +81,14 @@ export const StripeEmbeddedComponent = ({
       },
     });
   });
+
+  if (retrieveAccountError) {
+    return <Banner tone="critical">{retrieveAccountError.message}</Banner>;
+  }
+
+  if (isPending) {
+    return <PageLoadingState />;
+  }
 
   return (
     <ConnectComponentsProvider connectInstance={stripeConnectInstance}>

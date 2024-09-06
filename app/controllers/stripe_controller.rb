@@ -216,7 +216,7 @@ class StripeController < ApplicationController
   end
 
   def create_account_session
-    external_account_collection = params.fetch("externalAccountCollection", false)
+    external_account_collection = params.fetch("externalAccountCollection", true)
     account_session = Stripe::AccountSession.create({
       account: params[:account_id],
       components: {
