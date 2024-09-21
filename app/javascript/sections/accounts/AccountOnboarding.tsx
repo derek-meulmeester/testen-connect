@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { ConnectAccountOnboarding } from "@stripe/react-connect-js";
-import { Action, Layout, Page } from "@shopify/polaris";
+import { Action, BlockStack, Layout, Page, Text } from "@shopify/polaris";
 
 import { useAttributeControls } from "@/sections";
 import {
@@ -12,8 +12,14 @@ import {
   StripeEmbeddedComponent,
 } from "@/components";
 
+type StepViews = {
+  step: string;
+  startTime: Date;
+};
+
 export const AccountOnboarding = () => {
   const [linkModalOpen, setLinkModalOpen] = React.useState(false);
+  const [stepViews, setStepViews] = React.useState<StepViews[]>([]);
   const { accountId } = useParams();
   const { attributeValues, AttributeControls } = useAttributeControls();
   const {
@@ -24,6 +30,10 @@ export const AccountOnboarding = () => {
     includeEventuallyDue,
     includeFutureRequirements,
   } = attributeValues;
+  const dateFormat = new Intl.DateTimeFormat("en-US", {
+    dateStyle: "short",
+    timeStyle: "medium",
+  });
   const retrieveAccountApi = () =>
     axios.get(`/api/stripe/account/${accountId}`).then((res) => res.data);
 
@@ -40,6 +50,16 @@ export const AccountOnboarding = () => {
     // eslint-disable-next-line no-alert
     window.alert("onExit emitted!");
   }, []);
+
+  const onStepChange = ({ step }) => {
+    setStepViews([
+      ...stepViews,
+      {
+        step,
+        startTime: new Date(),
+      },
+    ]);
+  };
 
   const openStandardDashboard = React.useCallback(() => {
     window.open("https://dashboard.stripe.com", "_blank");
@@ -91,7 +111,29 @@ export const AccountOnboarding = () => {
       ]}
     >
       <Layout>
-        <Layout.Section variant="oneThird">{AttributeControls}</Layout.Section>
+        <Layout.Section variant="oneThird">
+          <BlockStack gap="500">
+            {AttributeControls}
+            <div>
+              <Text variant="headingMd" as="h5">
+                Step views
+              </Text>
+              {stepViews.map(({ step, startTime }) => {
+                return (
+                  <Text as="p" key={`${step}-${startTime}`}>
+                    <Text as="span" tone="subdued">
+                      {dateFormat.format(startTime)}
+                      {": "}
+                    </Text>
+                    <Text as="span" tone="magic-subdued" fontWeight="semibold">
+                      {step}
+                    </Text>
+                  </Text>
+                );
+              })}
+            </div>
+          </BlockStack>
+        </Layout.Section>
         <Layout.Section>
           <StripeEmbeddedComponent accountId={accountId}>
             <ConnectAccountOnboarding
@@ -100,6 +142,7 @@ export const AccountOnboarding = () => {
               fullTermsOfServiceUrl={fullToSUrl}
               recipientTermsOfServiceUrl={recipientToSUrl}
               skipTermsOfServiceCollection={skipTosCollection}
+              onStepChange={onStepChange}
               collectionOptions={{
                 fields: includeEventuallyDue
                   ? "eventually_due"

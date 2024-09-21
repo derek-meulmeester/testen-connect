@@ -594,15 +594,15 @@
     react-fast-compare "^3.2.0"
     react-transition-group "^4.4.2"
 
-"@stripe/connect-js@^3.3.5":
-  version "3.3.5"
-  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.3.5.tgz#cb9344e519d39c9397f180b74e31912eac251fe4"
-  integrity sha512-wPr5y5XxSsXAbyonSz6jWsZru62PYOoTxNDxVH467+1PgiYSBqq0jvBItGzI/2bGFe89GTcY/kwqABe0Qg3orw==
+"@stripe/connect-js@^3.3.13":
+  version "3.3.13"
+  resolved "https://registry.yarnpkg.com/@stripe/connect-js/-/connect-js-3.3.13.tgz#09338c30c251a48e24db5e0d14950158c2e38335"
+  integrity sha512-WSSZngnrEqQ2yFPbc5xN0S2fgZDATI0h0uqGbW2mzTuo5HSOGcFvf240UCNnVpmxVY92mIycMq5tpYncsx6/xQ==
 
-"@stripe/react-connect-js@^3.3.7":
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.7.tgz#f784e1a3f1bffec87c1c7c26db187397c15066d2"
-  integrity sha512-TM7OVXFv1Ed24x76VtmHvN1mfDsMVmJOzhDpFSRY/o4vegwnmmkfRD6OOEIBSaSXDagYZUgqGkKqEmss1lozKg==
+"@stripe/react-connect-js@^3.3.14":
+  version "3.3.14"
+  resolved "https://registry.yarnpkg.com/@stripe/react-connect-js/-/react-connect-js-3.3.14.tgz#3c18a9e079c5a1ef3b530aa40fc5f436ba8785d3"
+  integrity sha512-xJ/fFvmRsfEzJZhKzvoMxIAsrm+8bDQdkXC+10Q6+rpBGh1+dpHBWb6VivqHKzxoI/YX0nhBq4QTMEBRRVDV/A==
 
 "@tanstack/eslint-plugin-query@^5.17.7":
   version "5.17.7"
