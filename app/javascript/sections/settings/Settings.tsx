@@ -61,7 +61,8 @@ export default function Settings() {
           </Card>
         </Layout.AnnotatedSection>
 
-        <Layout.AnnotatedSection
+        {/* Always collect external account with auth disabled */}
+        {/* <Layout.AnnotatedSection
           id="componentFeatures"
           title="Component Features"
           description="Control what features are enabled on Embedded Components."
@@ -78,7 +79,7 @@ export default function Settings() {
               </FormLayout>
             </BlockStack>
           </Card>
-        </Layout.AnnotatedSection>
+        </Layout.AnnotatedSection> */}
       </Layout>
     </Page>
   );

@@ -216,7 +216,9 @@ class StripeController < ApplicationController
   end
 
   def create_account_session
-    external_account_collection = params.fetch("externalAccountCollection", true)
+    stripe_account = Stripe::Account.retrieve(params[:account_id])
+    external_account_collection = true
+    disable_stripe_user_authentication = stripe_account.type == "custom"
     account_session = Stripe::AccountSession.create({
       account: params[:account_id],
       components: {
@@ -224,18 +226,21 @@ class StripeController < ApplicationController
           enabled: true,
           features: {
             external_account_collection: external_account_collection,
+            disable_stripe_user_authentication: disable_stripe_user_authentication,
           },
         },
         account_onboarding: {
           enabled: true,
           features: {
             external_account_collection: external_account_collection,
+            disable_stripe_user_authentication: disable_stripe_user_authentication,
           },
         },
         account_management: {
           enabled: true,
           features: {
             external_account_collection: external_account_collection,
+            disable_stripe_user_authentication: disable_stripe_user_authentication,
           },
         },
         documents: {
@@ -248,6 +253,7 @@ class StripeController < ApplicationController
             standard_payouts: true,
             edit_payout_schedule: true,
             external_account_collection: external_account_collection,
+            disable_stripe_user_authentication: disable_stripe_user_authentication,
           }
         },
         payment_details: {
