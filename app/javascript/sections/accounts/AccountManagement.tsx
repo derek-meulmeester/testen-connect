@@ -11,12 +11,25 @@ import { StripeEmbeddedComponent } from "@/components";
 export const AccountManagement = () => {
   const { accountId } = useParams();
 
+  const openGoView = React.useCallback(() => {
+    window.open(`http://go/view/${accountId}`, "_blank");
+  }, [accountId]);
+
   if (!accountId) {
     return <p>Error loading account</p>;
   }
 
   return (
-    <Page title="Account Management" backAction={{ url: "/accounts" }}>
+    <Page
+      title="Account Management"
+      backAction={{ url: "/accounts" }}
+      secondaryActions={[
+        {
+          content: "go/view",
+          onAction: openGoView,
+        },
+      ]}
+    >
       <Layout>
         <StripeEmbeddedComponent accountId={accountId}>
           <Layout.Section>

@@ -61,14 +61,17 @@ export const AccountOnboarding = () => {
     ]);
   };
 
+  const openGoView = React.useCallback(() => {
+    window.open(`http://go/view/${accountId}`, "_blank");
+  }, [accountId]);
+
   const openStandardDashboard = React.useCallback(() => {
     window.open("https://dashboard.stripe.com", "_blank");
   }, []);
 
   const openExpressDashboard = React.useCallback(() => {
     window.open(`/api/stripe/account/${accountId}/login_link`, "_blank");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [accountId]);
 
   if (!accountId) {
     return <p>No account provided</p>;
@@ -103,6 +106,10 @@ export const AccountOnboarding = () => {
       title="Account Onboarding"
       backAction={{ url: "/accounts" }}
       secondaryActions={[
+        {
+          content: "go/view",
+          onAction: openGoView,
+        },
         ...secondaryActions,
         {
           content: "Hosted Onboarding",
