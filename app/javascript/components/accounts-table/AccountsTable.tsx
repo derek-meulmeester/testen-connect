@@ -2,12 +2,26 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Flag from "react-world-flags";
-import { IndexTable, Text, Link, EmptyState } from "@shopify/polaris";
+import {
+  IndexTable,
+  InlineStack,
+  Text,
+  Link,
+  EmptyState,
+  Icon,
+} from "@shopify/polaris";
+import { AlertCircleIcon, ClipboardCheckIcon } from "@shopify/polaris-icons";
 import { format } from "@shopify/dates";
+
+type AccountRequirements = {
+  errors: string[];
+};
 
 type Account = {
   id: string;
+  details_submitted?: boolean;
   type: string;
+  business_type: string;
   country: string;
   email?: string;
   created: number;
@@ -16,6 +30,7 @@ type Account = {
       type: "full" | "express" | "none";
     };
   };
+  requirements: AccountRequirements;
 };
 
 type Props = {
@@ -24,6 +39,26 @@ type Props = {
   hasPrevious: boolean;
   onNext(accountId: string): void;
   onPrevious(accountId: string): void;
+};
+
+const AccountIcon = ({ details_submitted, requirements }: Account) => {
+  if (requirements.errors.length > 0) {
+    return (
+      <div>
+        <Icon source={AlertCircleIcon} tone="critical" />
+      </div>
+    );
+  }
+
+  if (details_submitted) {
+    return (
+      <div>
+        <Icon source={ClipboardCheckIcon} tone="success" />
+      </div>
+    );
+  }
+
+  return null;
 };
 
 export const AccountsTable = ({
@@ -50,6 +85,7 @@ export const AccountsTable = ({
         { title: "ID" },
         { title: "Email" },
         { title: "Country" },
+        { title: "Business type" },
         { title: "Type" },
         { title: "Dashboard" },
         { title: "Created" },
@@ -65,8 +101,11 @@ export const AccountsTable = ({
         },
       }}
     >
-      {accounts.map(
-        ({ id, type, controller, country, email, created }, index) => (
+      {accounts.map((account, index) => {
+        const { id, type, business_type, controller, country, email, created } =
+          account;
+
+        return (
           <IndexTable.Row
             id={id}
             key={id}
@@ -79,9 +118,13 @@ export const AccountsTable = ({
                 dataPrimaryLink
                 url={`/accounts/${id}/onboarding`}
               >
-                <Text variant="bodyMd" fontWeight="bold" as="span">
-                  {id}
-                </Text>
+                <InlineStack gap="100" wrap={false} blockAlign="center">
+                  <Text variant="bodyMd" fontWeight="bold" as="span">
+                    {id}
+                  </Text>
+
+                  <AccountIcon {...account} />
+                </InlineStack>
               </Link>
             </IndexTable.Cell>
             <IndexTable.Cell>{email}</IndexTable.Cell>
@@ -89,6 +132,7 @@ export const AccountsTable = ({
               <Flag code={country} width="20" />
               <span style={{ marginLeft: "8px" }}>{country}</span>
             </IndexTable.Cell>
+            <IndexTable.Cell>{business_type}</IndexTable.Cell>
             <IndexTable.Cell>{type}</IndexTable.Cell>
             <IndexTable.Cell>
               {controller?.stripe_dashboard?.type}
@@ -97,8 +141,8 @@ export const AccountsTable = ({
               {format(new Date(created * 1000), "YYYY-MM-DD")}
             </IndexTable.Cell>
           </IndexTable.Row>
-        ),
-      )}
+        );
+      })}
     </IndexTable>
   ) : (
     <EmptyState

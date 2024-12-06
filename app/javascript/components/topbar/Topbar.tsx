@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TopBar as PolarisTopbar, TopBarProps } from "@shopify/polaris";
-import { CodeMajor, SettingsMinor, NoteMajor } from "@shopify/polaris-icons";
+import { CodeIcon, SettingsIcon, NoteIcon } from "@shopify/polaris-icons";
 
 export default function Topbar(topBarProps: TopBarProps) {
   const user = {
@@ -22,17 +22,17 @@ export default function Topbar(topBarProps: TopBarProps) {
     {
       items: [
         {
-          icon: SettingsMinor,
+          icon: SettingsIcon,
           content: "Settings",
           url: "/settings",
         },
         {
-          icon: CodeMajor,
+          icon: CodeIcon,
           content: "Code",
           url: "https://github.com/derek-meulmeester/testen-connect",
         },
         {
-          icon: NoteMajor,
+          icon: NoteIcon,
           content: "Docs",
           url: "https://stripe.com/docs/connect/get-started-connect-embedded-components",
         },

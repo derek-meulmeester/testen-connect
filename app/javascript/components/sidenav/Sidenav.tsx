@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, matchPath } from "react-router-dom";
 import { Navigation } from "@shopify/polaris";
-import { CustomersMajor, SettingsMinor } from "@shopify/polaris-icons";
+import { PersonIcon, SettingsIcon } from "@shopify/polaris-icons";
 
 interface Props {
   onItemSelect: () => void;
@@ -21,7 +21,7 @@ export default function Sidenav(props: Props) {
           {
             url: "/accounts",
             label: "Accounts",
-            icon: CustomersMajor,
+            icon: PersonIcon,
             onClick: onItemSelect,
             selected: pathname.startsWith("/accounts"),
             subNavigationItems: accountId
@@ -52,7 +52,7 @@ export default function Sidenav(props: Props) {
           {
             url: "/settings",
             label: "Settings",
-            icon: SettingsMinor,
+            icon: SettingsIcon,
             onClick: onItemSelect,
             selected: pathname.startsWith("/settings"),
           },
