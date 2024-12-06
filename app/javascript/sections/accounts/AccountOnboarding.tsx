@@ -135,24 +135,31 @@ export const AccountOnboarding = () => {
           </BlockStack>
         </Layout.Section>
         <Layout.Section>
-          <StripeEmbeddedComponent accountId={accountId}>
-            <ConnectAccountOnboarding
-              onExit={onExit}
-              privacyPolicyUrl={privacyPolicyUrl}
-              fullTermsOfServiceUrl={fullToSUrl}
-              recipientTermsOfServiceUrl={recipientToSUrl}
-              skipTermsOfServiceCollection={skipTosCollection}
-              onStepChange={onStepChange}
-              collectionOptions={{
-                fields: includeEventuallyDue
-                  ? "eventually_due"
-                  : "currently_due",
-                futureRequirements: includeFutureRequirements
-                  ? "include"
-                  : "omit",
-              }}
-            />
-          </StripeEmbeddedComponent>
+          <div
+            style={{
+              marginLeft: window.outerWidth >= 1024 ? "50px" : undefined,
+              paddingBottom: "50px",
+            }}
+          >
+            <StripeEmbeddedComponent accountId={accountId}>
+              <ConnectAccountOnboarding
+                onExit={onExit}
+                privacyPolicyUrl={privacyPolicyUrl}
+                fullTermsOfServiceUrl={fullToSUrl}
+                recipientTermsOfServiceUrl={recipientToSUrl}
+                skipTermsOfServiceCollection={skipTosCollection}
+                onStepChange={onStepChange}
+                collectionOptions={{
+                  fields: includeEventuallyDue
+                    ? "eventually_due"
+                    : "currently_due",
+                  futureRequirements: includeFutureRequirements
+                    ? "include"
+                    : "omit",
+                }}
+              />
+            </StripeEmbeddedComponent>
+          </div>
         </Layout.Section>
       </Layout>
       <AccountLinkModal
